@@ -1,4 +1,4 @@
-package com.example.pstravel.Entity;
+package com.example.pstravel.Entity.timeTable;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

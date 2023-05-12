@@ -1,5 +1,6 @@
 package com.example.pstravel.Entity;
 
+import com.example.pstravel.Entity.timeTable.TimeTable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

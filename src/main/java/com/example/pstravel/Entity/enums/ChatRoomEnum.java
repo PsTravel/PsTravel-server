@@ -1,4 +1,4 @@
-package com.example.pstravel.Entity;
+package com.example.pstravel.Entity.enums;
 
 public enum ChatRoomEnum {
     SHOW,

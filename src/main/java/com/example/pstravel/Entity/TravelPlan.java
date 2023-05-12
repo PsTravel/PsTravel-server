@@ -1,11 +1,10 @@
 package com.example.pstravel.Entity;
 
+import com.example.pstravel.Entity.timeTable.TimeTable;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter @NoArgsConstructor

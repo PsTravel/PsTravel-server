@@ -1,10 +1,9 @@
 package com.example.pstravel.Entity;
 
+import com.example.pstravel.Entity.timeTable.TimeTable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.sql.Time;
 
 @Entity
 @Getter
@@ -13,16 +12,18 @@ public class ChatRoomGroup extends TimeTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatMessageIdx;
+    private Long chatRoomGroupIdx;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_idx")
-    @Column(nullable = false)
+    @JoinColumn(name = "chat_room_idx", referencedColumnName="chatRoomIdx", nullable = false)
     private ChatRoom chatRoomIdx;
+
     @Column(nullable = false)
-    private Boolean show;
+    private Boolean showStatus;
+
     @Column(nullable = false)
     private String userId;
+
     @Column(nullable = false)
     private String opponent;
 

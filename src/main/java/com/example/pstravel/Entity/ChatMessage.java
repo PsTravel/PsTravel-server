@@ -1,7 +1,9 @@
 package com.example.pstravel.Entity;
 
+import com.example.pstravel.Entity.enums.ChatRoomEnum;
 import jakarta.persistence.*;
 
+@Entity
 public class ChatMessage {
 
     @Id
@@ -9,7 +11,7 @@ public class ChatMessage {
     private Long chatMessageIdx;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_idx")
+    @JoinColumn(name = "chat_room_idx", referencedColumnName="chatRoomIdx", nullable = false)
     private ChatRoom chatRoom;
 
     @Column(nullable = false)
@@ -25,6 +27,6 @@ public class ChatMessage {
     private Boolean read;
 
     @Column(nullable = false)
-    private Enum<ChatRoomEnum> show;
+    private Enum<ChatRoomEnum> showStatus;
 
 }
