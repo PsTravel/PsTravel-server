@@ -12,7 +12,7 @@ public class ChatMessage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_idx", referencedColumnName="chatRoomIdx", nullable = false)
-    private ChatRoom chatRoom;
+    private ChatRoom chatRoomIdx;
 
     @Column(nullable = false)
     private String message;
@@ -24,7 +24,7 @@ public class ChatMessage {
     private String recipient;
 
     @Column(nullable = false)
-    private Boolean read;
+    private Boolean checked;
 
     @Column(nullable = false)
     private Enum<ChatRoomEnum> showStatus;

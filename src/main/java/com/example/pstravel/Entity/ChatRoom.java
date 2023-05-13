@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter @NoArgsConstructor
 public class ChatRoom  extends TimeTable {
@@ -13,5 +15,9 @@ public class ChatRoom  extends TimeTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatRoomIdx;
 
+    @OneToMany(mappedBy = "chatRoomIdx")
+    private List<ChatMessage> chatMessages;
 
+    @OneToMany(mappedBy = "chatRoomIdx")
+    private List<ChatRoomGroup> chatRoomGroups;
 }
