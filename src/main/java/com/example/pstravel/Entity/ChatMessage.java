@@ -33,4 +33,13 @@ public class ChatMessage extends TimeTable {
     @Enumerated(EnumType.STRING)
     private ChatRoomEnum showStatus;
 
+    @Builder
+    public ChatMessage(ChatRoom chatRoomIdx, String message, String sender, String recipient, Boolean checked, ChatRoomEnum showStatus) {
+        this.chatRoomIdx = chatRoomIdx;
+        this.message = message;
+        this.sender = sender;
+        this.recipient = recipient;
+        this.checked = checked;
+        this.showStatus = showStatus;
+    }
 }
