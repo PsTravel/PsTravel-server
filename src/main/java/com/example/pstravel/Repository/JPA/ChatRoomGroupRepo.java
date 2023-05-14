@@ -1,4 +1,4 @@
-package com.example.pstravel.Repository;
+package com.example.pstravel.Repository.JPA;
 
 import com.example.pstravel.Entity.ChatRoomGroup;
 import com.example.pstravel.Entity.enums.ChatRoomEnum;

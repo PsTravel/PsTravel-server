@@ -1,4 +1,4 @@
-package com.example.pstravel.Repository;
+package com.example.pstravel.Repository.JPA;
 
 import com.example.pstravel.Entity.TravelPlan;
 import org.springframework.data.jpa.repository.JpaRepository;
