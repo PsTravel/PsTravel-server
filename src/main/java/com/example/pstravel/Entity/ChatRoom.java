@@ -1,15 +1,21 @@
 package com.example.pstravel.Entity;
 
 import com.example.pstravel.Entity.timeTable.TimeTable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Getter @NoArgsConstructor
-public class ChatRoom  extends TimeTable {
+@Getter
+@NoArgsConstructor
+@Setter
+public class ChatRoom extends TimeTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +26,11 @@ public class ChatRoom  extends TimeTable {
 
     @OneToMany(mappedBy = "chatRoomIdx")
     private List<ChatRoomGroup> chatRoomGroups;
+
+    @Builder
+    public ChatRoom(Long chatRoomIdx, List<ChatMessage> chatMessages, List<ChatRoomGroup> chatRoomGroups) {
+        this.chatRoomIdx = chatRoomIdx;
+        this.chatMessages = chatMessages;
+        this.chatRoomGroups = chatRoomGroups;
+    }
 }
