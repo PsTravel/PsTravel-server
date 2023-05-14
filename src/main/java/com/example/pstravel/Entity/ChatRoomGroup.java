@@ -1,7 +1,9 @@
 package com.example.pstravel.Entity;
 
+import com.example.pstravel.Entity.enums.ChatRoomEnum;
 import com.example.pstravel.Entity.timeTable.TimeTable;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,12 +21,23 @@ public class ChatRoomGroup extends TimeTable {
     private ChatRoom chatRoomIdx;
 
     @Column(nullable = false)
-    private Boolean showStatus;
+    @Enumerated(EnumType.STRING)
+    private ChatRoomEnum showStatus;
 
     @Column(nullable = false)
     private String userId;
 
     @Column(nullable = false)
     private String opponent;
+
+
+    @Builder
+    public ChatRoomGroup(Long chatRoomGroupIdx, ChatRoom chatRoomIdx, ChatRoomEnum showStatus, String userId, String opponent) {
+        this.chatRoomGroupIdx = chatRoomGroupIdx;
+        this.chatRoomIdx = chatRoomIdx;
+        this.showStatus = showStatus;
+        this.userId = userId;
+        this.opponent = opponent;
+    }
 
 }

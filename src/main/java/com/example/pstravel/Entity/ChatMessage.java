@@ -1,10 +1,13 @@
 package com.example.pstravel.Entity;
 
 import com.example.pstravel.Entity.enums.ChatRoomEnum;
+import com.example.pstravel.Entity.timeTable.TimeTable;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@Entity
-public class ChatMessage {
+@Entity @NoArgsConstructor
+public class ChatMessage extends TimeTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,7 @@ public class ChatMessage {
     private Boolean checked;
 
     @Column(nullable = false)
-    private Enum<ChatRoomEnum> showStatus;
+    @Enumerated(EnumType.STRING)
+    private ChatRoomEnum showStatus;
 
 }

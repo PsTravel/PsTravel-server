@@ -1,9 +1,9 @@
 package com.example.pstravel.Entity.enums;
 
 public enum ChatRoomEnum {
-    SHOW,
-    DELETE,
-    OUT;
+    SHOW("Show"),
+    DELETE("Delete"),
+    OUT("Out");
 
     private String displayName;
 
