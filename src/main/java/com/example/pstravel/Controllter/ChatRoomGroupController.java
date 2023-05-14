@@ -1,6 +1,6 @@
 package com.example.pstravel.Controllter;
 
-import com.example.pstravel.Dto.ChatRoomList;
+import com.example.pstravel.Dto.ChatRoomListDto;
 import com.example.pstravel.service.ChatRoomGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class ChatRoomGroupController {
 
     @GetMapping("/list")
     public ResponseEntity<?> chatRoomList(@RequestParam Long userId){
-        List<ChatRoomList> chatRoomList = chatRoomGroupService.getChatRoomList(userId);
+        List<ChatRoomListDto> chatRoomListDto = chatRoomGroupService.getChatRoomList(userId);
 
-        return ResponseEntity.ok().body(chatRoomList);
+        return ResponseEntity.ok().body(chatRoomListDto);
     }
 }

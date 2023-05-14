@@ -1,11 +1,11 @@
 package com.example.pstravel.service;
 
-import com.example.pstravel.Dto.ChatRoomList;
+import com.example.pstravel.Dto.ChatRoomListDto;
 import com.example.pstravel.Entity.ChatRoomGroup;
 import com.example.pstravel.Entity.User;
 import com.example.pstravel.Entity.enums.ChatRoomEnum;
-import com.example.pstravel.Repository.ChatRoomGroupRepo;
-import com.example.pstravel.Repository.UserRepo;
+import com.example.pstravel.Repository.JPA.ChatRoomGroupRepo;
+import com.example.pstravel.Repository.JPA.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +22,10 @@ public class ChatRoomGroupService {
     ChatRoomGroupRepo chatRoomGroupRepo;
 
     @Transactional
-    public List<ChatRoomList> getChatRoomList(Long userIdx) {
+    public List<ChatRoomListDto> getChatRoomList(Long userIdx) {
         Optional<User> userOptional = userRepo.findByUserIdx(userIdx);
         List<ChatRoomGroup> byUserIdAndShowStatus = chatRoomGroupRepo.findByUserIdAndShowStatus(userOptional.get().getUserId(), ChatRoomEnum.SHOW);
-        return ChatRoomList.list(byUserIdAndShowStatus);
+        return ChatRoomListDto.list(byUserIdAndShowStatus);
     }
 
 }

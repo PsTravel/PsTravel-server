@@ -13,21 +13,21 @@ import java.util.List;
 
 @Getter
 @Builder @NoArgsConstructor @AllArgsConstructor @JsonSerialize
-public class ChatRoomList {
+public class ChatRoomListDto {
     private String opponent;
     private Long chatRoomIdx;
     private LocalDateTime modifiedAt;
 
-    public static ChatRoomList of(ChatRoomGroup chatRoomGroup){
-        return ChatRoomList.builder()
+    public static ChatRoomListDto of(ChatRoomGroup chatRoomGroup){
+        return ChatRoomListDto.builder()
                 .opponent(chatRoomGroup.getOpponent())
                 .chatRoomIdx(chatRoomGroup.getChatRoomIdx().getChatRoomIdx())
                 .modifiedAt(chatRoomGroup.getModifiedAt())
                 .build();
     }
 
-    public static List<ChatRoomList> list(List<ChatRoomGroup> chatRooms){
-        List<ChatRoomList> chatRoomHistories = new ArrayList<>();
+    public static List<ChatRoomListDto> list(List<ChatRoomGroup> chatRooms){
+        List<ChatRoomListDto> chatRoomHistories = new ArrayList<>();
         for(ChatRoomGroup a : chatRooms){
             chatRoomHistories.add(of(a));
         }
