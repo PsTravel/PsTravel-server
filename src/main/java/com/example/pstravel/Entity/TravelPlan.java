@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter @NoArgsConstructor
 public class TravelPlan extends TimeTable {
@@ -14,8 +16,9 @@ public class TravelPlan extends TimeTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tavelPlanIdx;
 
-    @Column(nullable = false)
-    private Long userInformIdx;
+    @JoinColumn(name = "user_idx", referencedColumnName="userIdx", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User userIdx;
 
     @Column(nullable = false)
     private String title;
@@ -23,11 +26,5 @@ public class TravelPlan extends TimeTable {
     @Column(nullable = false)
     private String contents;
 
-    @Builder
-    public TravelPlan(Long tavelPlanIdx, Long userInformIdx, String title, String contents) {
-        this.tavelPlanIdx = tavelPlanIdx;
-        this.userInformIdx = userInformIdx;
-        this.title = title;
-        this.contents = contents;
-    }
+
 }
