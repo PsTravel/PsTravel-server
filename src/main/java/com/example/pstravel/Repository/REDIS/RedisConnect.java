@@ -6,6 +6,8 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+
 @Configuration
 public class RedisConnect {
 
@@ -37,6 +39,14 @@ public class RedisConnect {
     private void setLocation(String key, String location) throws Exception {
         try {
             connection.async().set(key, location);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+
+    private void hsetLocation(String key, HashMap<String, String> map) throws Exception {
+        try {
+            connection.async().hset(key, map);
         } catch (Exception e) {
             throw new Exception(e);
         }
