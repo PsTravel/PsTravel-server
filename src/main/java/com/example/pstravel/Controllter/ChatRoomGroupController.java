@@ -18,8 +18,8 @@ public class ChatRoomGroupController {
     ChatRoomGroupService chatRoomGroupService;
 
     @GetMapping("/list")
-    public ResponseEntity<?> chatRoomList(@RequestParam Long userId){
-        List<ChatRoomListDto> chatRoomListDto = chatRoomGroupService.getChatRoomList(userId);
+    public ResponseEntity<?> chatRoomList(@RequestParam Long userIdx){
+        List<ChatRoomListDto> chatRoomListDto = chatRoomGroupService.getChatRoomList(userIdx);
 
         return ResponseEntity.ok().body(chatRoomListDto);
     }
