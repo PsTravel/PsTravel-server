@@ -1,5 +1,6 @@
 package com.example.pstravel.service;
 
+import com.example.pstravel.Dto.ChatRoomHistoryDto;
 import com.example.pstravel.Dto.MessageSaveDto;
 import com.example.pstravel.Entity.ChatMessage;
 import com.example.pstravel.Entity.ChatRoom;
@@ -11,6 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ChatMessageService {
@@ -34,5 +37,17 @@ public class ChatMessageService {
 
         chatMessageRepo.save(chatMessage);
 //        System.out.println(chatMessage);
+    }
+
+    @Transactional
+    public List<ChatRoomHistoryDto> getHistory(ChatRoomHistoryDto chatRoomHistoryDto) {
+
+        ChatRoom allByChatRoomIdx = chatRoomRepo.findAllByChatRoomIdx(chatRoomHistoryDto.getChatRoomIdx());
+
+        String sender = chatRoomHistoryDto.getSender();
+        String recipient = chatRoomHistoryDto.getRecipient();
+        List<ChatMessage> messageHistory = chatMessageRepo.findByChatRoomIdxAndSenderAndRecipientOrderByCreatedAtDesc(allByChatRoomIdx, sender, recipient);
+        List<ChatRoomHistoryDto> result = ChatRoomHistoryDto.list(messageHistory);
+        return result;
     }
 }

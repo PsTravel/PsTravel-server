@@ -4,9 +4,10 @@ import com.example.pstravel.Entity.enums.ChatRoomEnum;
 import com.example.pstravel.Entity.timeTable.TimeTable;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity @NoArgsConstructor
+@Entity @NoArgsConstructor @Getter
 public class ChatMessage extends TimeTable {
 
     @Id
