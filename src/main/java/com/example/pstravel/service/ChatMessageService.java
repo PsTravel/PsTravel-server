@@ -1,6 +1,7 @@
 package com.example.pstravel.service;
 
 import com.example.pstravel.Dto.ChatRoomHistoryDto;
+import com.example.pstravel.Dto.MessageDelDto;
 import com.example.pstravel.Dto.MessageSaveDto;
 import com.example.pstravel.Entity.ChatMessage;
 import com.example.pstravel.Entity.ChatRoom;
@@ -49,5 +50,17 @@ public class ChatMessageService {
         List<ChatMessage> messageHistory = chatMessageRepo.findByChatRoomIdxAndSenderAndRecipientOrderByCreatedAtDesc(allByChatRoomIdx, sender, recipient);
         List<ChatRoomHistoryDto> result = ChatRoomHistoryDto.list(messageHistory);
         return result;
+    }
+
+    @Transactional
+    public void deleteMessage(MessageDelDto messageDelDto) {
+        try {
+            chatMessageRepo.updateChatMessageStatus(messageDelDto.getChatMessageIdx(), messageDelDto.getUserId(), ChatRoomEnum.DELETE);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
     }
 }

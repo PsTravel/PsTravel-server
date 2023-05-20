@@ -1,6 +1,7 @@
 package com.example.pstravel.Controllter;
 
 import com.example.pstravel.Dto.ChatRoomHistoryDto;
+import com.example.pstravel.Dto.MessageDelDto;
 import com.example.pstravel.Dto.MessageSaveDto;
 import com.example.pstravel.service.ChatMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,12 @@ public class ChatMessageController {
         List<ChatRoomHistoryDto> history = chatMessageService.getHistory(chatRoomHistoryDto);
 
         return ResponseEntity.ok().body(history);
+    }
+
+    @PostMapping("/delete-message")
+    public ResponseEntity<?> deleteMessage(@RequestBody MessageDelDto messageDelDto){
+        chatMessageService.deleteMessage(messageDelDto);
+
+        return ResponseEntity.ok().build();
     }
 }
