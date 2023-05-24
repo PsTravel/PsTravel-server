@@ -10,16 +10,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ChatMessageRepo extends JpaRepository<ChatMessage,Long > {
 
-    List<ChatMessage> findByChatRoomIdxAndSenderAndRecipientOrderByCreatedAtDesc(ChatRoom chatRoom, String sender, String recipient);
+    List<ChatMessage> findByChatRoomIdxAndSenderAndRecipientAndShowStatusOrderByCreatedAtDesc(ChatRoom chatRoom, String sender, String recipient, ChatRoomEnum chatRoomEnum);
 
-    ChatMessage findByChatMessageIdx(Long id);
+    Optional<ChatMessage> findByChatMessageIdx(Long id);
 
     @Modifying
     @Query("UPDATE ChatMessage cm SET cm.showStatus = :status WHERE cm.chatMessageIdx = :id AND cm.sender = :userId")
-    void updateChatMessageStatus(@Param("id") Long id, @Param("userId") String userId, @Param("status") ChatRoomEnum status);
+    int updateChatMessageStatus(@Param("id") Long id, @Param("userId") String userId, @Param("status") ChatRoomEnum status);
 }
 
