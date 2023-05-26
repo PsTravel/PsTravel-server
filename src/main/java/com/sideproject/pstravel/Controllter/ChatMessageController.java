@@ -3,6 +3,7 @@ package com.sideproject.pstravel.Controllter;
 import com.sideproject.pstravel.Dto.ChatRoomHistoryDto;
 import com.sideproject.pstravel.Dto.MessageDelDto;
 import com.sideproject.pstravel.Dto.MessageSaveDto;
+import com.sideproject.pstravel.ErrorHandler.ErrorResponse;
 import com.sideproject.pstravel.ErrorHandler.MessageDelException;
 import com.sideproject.pstravel.service.ChatMessageService;
 import org.springframework.beans.factory.annotation.Autowired;

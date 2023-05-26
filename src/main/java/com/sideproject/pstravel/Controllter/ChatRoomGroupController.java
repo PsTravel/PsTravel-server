@@ -1,5 +1,7 @@
 package com.sideproject.pstravel.Controllter;
 
+import com.sideproject.pstravel.Dto.ChatRoomListDto;
+import com.sideproject.pstravel.service.ChatRoomGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
