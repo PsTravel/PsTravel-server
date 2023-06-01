@@ -19,6 +19,8 @@ public interface ChatMessageRepo extends JpaRepository<ChatMessage,Long > {
 
     Optional<ChatMessage> findByChatMessageIdx(Long id);
 
+    Optional<ChatMessage> findTop1ByChatMessageIdxAndShowStatus(Long id,  ChatRoomEnum showStatus);
+
     @Modifying
     @Query("UPDATE ChatMessage cm SET cm.showStatus = :status WHERE cm.chatMessageIdx = :id AND cm.sender = :userId")
     int updateChatMessageStatus(@Param("id") Long id, @Param("userId") String userId, @Param("status") ChatRoomEnum status);
