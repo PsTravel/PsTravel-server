@@ -25,7 +25,7 @@ public class LocationController {
     /**
      * @description 내 주변 유저들의 위치 정보를 보내주는 api
      */
-    @GetMapping("/getSurround")
+    @PostMapping("/getSurround")
     public List<?> getSurroundLocation(@RequestBody LocationDto locationDto) throws IllegalAccessException {
         locationService.saveLocation(locationDto);
 

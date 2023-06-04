@@ -6,6 +6,7 @@ import com.sideproject.pstravel.Dto.MessageDelDto;
 import com.sideproject.pstravel.Dto.MessageSaveDto;
 import com.sideproject.pstravel.Entity.ChatMessage;
 import com.sideproject.pstravel.Entity.ChatRoom;
+import com.sideproject.pstravel.Entity.ChatRoomGroup;
 import com.sideproject.pstravel.Entity.enums.ChatRoomEnum;
 import com.sideproject.pstravel.ErrorHandler.ErrorCode;
 import com.sideproject.pstravel.ErrorHandler.MessageDelException;
@@ -47,7 +48,6 @@ public class ChatMessageService {
                 .build();
 
         chatMessageRepo.save(chatMessage);
-//        System.out.println(chatMessage);
     }
 
     @Transactional
@@ -102,33 +102,5 @@ public class ChatMessageService {
         } else {
             throw new MessageDelException("message is not exist.", ErrorCode.NOT_EXIST_MESSAGE);
         }
-    }
-
-    public List<ChatRoomHistoryDto> a(ChatRoomHistoryDto chatRoomHistoryDto) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<ChatMessage> query = cb.createQuery(ChatMessage.class);
-        Root<ChatMessage> root = query.from(ChatMessage.class);
-
-        // 조건 설정
-        Predicate condition1 = cb.and(
-                cb.equal(root.get("chatRoomIdx"), 1),
-                cb.equal(root.get("recipient"), "cksdn"),
-                cb.equal(root.get("sender"), "qhsghd"),
-                cb.equal(root.get("showStatus"), ChatRoomEnum.SHOW)
-        );
-
-        Predicate condition2 = cb.and(
-                cb.equal(root.get("chatRoomIdx"), 1),
-                cb.equal(root.get("sender"), "qhsghd"),
-                cb.equal(root.get("recipient"), "찬우")
-        );
-
-        Predicate finalCondition = cb.or(condition1, condition2);
-
-        query.select(root).where(finalCondition);
-        query.orderBy(cb.asc(root.get("createdAt")));
-        TypedQuery<ChatMessage> typedQuery = entityManager.createQuery(query);
-        return ChatRoomHistoryDto.list(typedQuery.getResultList());
-
     }
 }

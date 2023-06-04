@@ -27,7 +27,7 @@ public class ChatMessageController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get-history")
+    @PostMapping("/get-history")
     public ResponseEntity<?> getHistory(@RequestBody ChatRoomHistoryDto chatRoomHistoryDto) {
         List<ChatRoomHistoryDto> history = chatMessageService.getHistory(chatRoomHistoryDto);
 

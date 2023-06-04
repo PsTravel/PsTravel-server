@@ -12,10 +12,14 @@ import com.sideproject.pstravel.Repository.JPA.ChatMessageRepo;
 import com.sideproject.pstravel.Repository.JPA.ChatRoomGroupRepo;
 import com.sideproject.pstravel.Repository.JPA.ChatRoomRepo;
 import com.sideproject.pstravel.Repository.JPA.UserRepo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,16 +35,35 @@ public class ChatRoomGroupService {
     ChatRoomRepo chatRoomRepo;
     @Autowired
     ChatMessageRepo chatMessageRepo;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional
     public List<ChatRoomListDto> getChatRoomList(Long userIdx) {
         Optional<User> userOptional = userRepo.findByUserIdx(userIdx);
-        List<ChatRoomGroup> byUserIdAndShowStatus = chatRoomGroupRepo.findByUserIdAndShowStatus(userOptional.get().getUserId(), ChatRoomEnum.SHOW);
-        List<ChatRoomLastMessage> a = new ArrayList<>();
-        for(int i=0; i<byUserIdAndShowStatus.size(); i++){
-            getLastMessage(a, byUserIdAndShowStatus.get(i).getChatRoomIdx().getChatRoomIdx());
+
+
+        String jpql = "SELECT a, b.chatMessages FROM ChatRoomGroup a JOIN a.chatRoomIdx b join b.chatMessages c WHERE a.userId = :userId and a.showStatus = :showStatus ORDER BY c.createdAt DESC";
+        TypedQuery<Object[]> query2 = entityManager.createQuery(jpql, Object[].class);
+        query2.setParameter("userId", userOptional.get().getUserId());
+        query2.setParameter("showStatus", ChatRoomEnum.SHOW);
+        query2.setMaxResults(1);
+        List<Object[]> resultList = query2.getResultList();
+
+        List<ChatRoomListDto> chatRoomLastMessages = new ArrayList<>();
+
+        for (Object[] result : resultList) {
+            ChatRoomGroup a = (ChatRoomGroup) result[0];
+            ChatMessage b = (ChatMessage) result[1];
+            chatRoomLastMessages.add(ChatRoomListDto.builder()
+                    .lastMessage(b.getMessage())
+                    .chatRoomIdx(a.getChatRoomIdx().getChatRoomIdx())
+                    .modifiedAt(b.getModifiedAt())
+                    .opponent(a.getOpponent())
+                    .build());
         }
-        return ChatRoomListDto.list(byUserIdAndShowStatus, a);
+
+        return chatRoomLastMessages;
     }
 
     @Transactional
