@@ -14,6 +14,7 @@ import com.sideproject.pstravel.Repository.JPA.ChatRoomRepo;
 import com.sideproject.pstravel.Repository.JPA.UserRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TemporalType;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,25 +42,28 @@ public class ChatRoomGroupService {
     @Transactional
     public List<ChatRoomListDto> getChatRoomList(Long userIdx) {
         Optional<User> userOptional = userRepo.findByUserIdx(userIdx);
+        List<ChatRoomGroup> byUserIdx = chatRoomGroupRepo.findByUserIdAndShowStatus(userOptional.get().getUserId(), ChatRoomEnum.SHOW);
+        List<Long> roomList = new ArrayList<>();
+        for(int i=0; i<byUserIdx.size(); i++){
+            roomList.add(byUserIdx.get(i).getChatRoomIdx().getChatRoomIdx());
+        }
+//        String jpql = "SELECT a, b.chatMessages FROM ChatRoomGroup a JOIN a.chatRoomIdx b join b.chatMessages c WHERE a.userId = :userId and a.showStatus = :showStatus ORDER BY c.createdAt DESC";
+        String jpql = "SELECT cm FROM ChatMessage cm JOIN cm.chatRoomIdx cr " +
+                "where cr.chatRoomIdx in :chatRoomIdxList " +
+                "and cm.chatMessageIdx = (SELECT MAX(cmsub.chatMessageIdx) FROM ChatMessage cmsub WHERE cmsub.chatRoomIdx.chatRoomIdx = cr.chatRoomIdx) ";
 
-
-        String jpql = "SELECT a, b.chatMessages FROM ChatRoomGroup a JOIN a.chatRoomIdx b join b.chatMessages c WHERE a.userId = :userId and a.showStatus = :showStatus ORDER BY c.createdAt DESC";
-        TypedQuery<Object[]> query2 = entityManager.createQuery(jpql, Object[].class);
-        query2.setParameter("userId", userOptional.get().getUserId());
-        query2.setParameter("showStatus", ChatRoomEnum.SHOW);
-        query2.setMaxResults(1);
-        List<Object[]> resultList = query2.getResultList();
+        TypedQuery<ChatMessage> query = entityManager.createQuery(jpql,  ChatMessage.class);
+        query.setParameter("chatRoomIdxList", roomList);
+        List<ChatMessage> resultList = query.getResultList();
 
         List<ChatRoomListDto> chatRoomLastMessages = new ArrayList<>();
 
-        for (Object[] result : resultList) {
-            ChatRoomGroup a = (ChatRoomGroup) result[0];
-            ChatMessage b = (ChatMessage) result[1];
+        for (ChatMessage result : resultList) {
             chatRoomLastMessages.add(ChatRoomListDto.builder()
-                    .lastMessage(b.getMessage())
-                    .chatRoomIdx(a.getChatRoomIdx().getChatRoomIdx())
-                    .modifiedAt(b.getModifiedAt())
-                    .opponent(a.getOpponent())
+                    .lastMessage(result.getMessage())
+                    .chatRoomIdx(result.getChatRoomIdx().getChatRoomIdx())
+                    .modifiedAt(result.getModifiedAt())
+                    .opponent(result.getRecipient())
                     .build());
         }
 
